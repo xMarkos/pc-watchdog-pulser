@@ -1,7 +1,7 @@
 import usb.core
 import usb.util
 import time
-from typing import Any, TypeIs, cast
+from typing import Any, cast
 
 device_search_args = {
     'idVendor': 0x16c0,
@@ -26,6 +26,7 @@ USBRQ_SET_BRIGHTNESS = 2
 # Constants controlling this program (i.e. configuration)
 PULSE_FREQUENCY_SECONDS = 10
 PULSE_TIMEOUT_SECONDS = 15
+DEVICE_LED_BRIGHTNESS = 1
 
 
 class WatchdogUsbDevice(object):
@@ -101,6 +102,7 @@ class WatchdogUsbDevice(object):
 				break
 
 			text += chr(result[0])
+			time.sleep(0.01)
 
 		return text
 
@@ -117,6 +119,7 @@ try:
 
 		try:
 			device.check_device()
+			device.send_vendor_command(USBRQ_SET_BRIGHTNESS, DEVICE_LED_BRIGHTNESS)
 
 			last_pulse = 0
 			last_minutes = ''
