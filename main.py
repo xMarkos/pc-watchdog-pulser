@@ -41,7 +41,7 @@ class WatchdogUsbDevice(object):
 		self.device_search_args = device_search_args
 
 	def __str__(self) -> str:
-		return f'{self._device=!s}'
+		return f'{self._device!s}'
 
 	@property
 	def device(self) -> usb.core.Device:
@@ -54,7 +54,7 @@ class WatchdogUsbDevice(object):
 		self._device = cast(usb.core.Device | None, usb.core.find(**self.device_search_args, find_all=False))
 
 	def check_device(self):
-		_ = self._device
+		_ = self.device
 
 	def write(self, data: str):
 		'''
